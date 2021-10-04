@@ -14,7 +14,7 @@ public:
 
     Objeto(vec3f col, vec3f _kdkskr, float _n);
 
-
+    virtual void move(Objeto *object) = 0;
     virtual bool intersectar(Rayo ray, float &t, vec3f &c, vec3f &normal)=0;
 };
 #endif //RT1_OBJETO_H

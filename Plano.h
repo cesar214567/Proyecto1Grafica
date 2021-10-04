@@ -8,7 +8,7 @@ public:
     vec3f punto, normal;
 
     Plano(vec3f _punto, vec3f _normal, vec3f _color, vec3f _kdkskr, float _n);
-
+    void move(Objeto *object){};
     bool intersectar(Rayo ray, float &t, vec3f &c, vec3f &_normal);
 };
 

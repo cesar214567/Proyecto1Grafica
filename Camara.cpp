@@ -31,7 +31,7 @@ void Camara::setObjetos(vector<Objeto *> _objetos) {
     objetos = _objetos;
 }
 
-void Camara::Renderizar() {
+void Camara::Renderizar(Objeto* cilindro) {
     Rayo ray;
     ray.ori = pos;
 
@@ -44,24 +44,33 @@ void Camara::Renderizar() {
 
     bool intersecto, intersecto_uno;
     Objeto *pObj;
-    for(int x=0;  x < w; x++) {
-        for(int y=0; y < h; y++) {
-            ray.dir = ze*(-f) + ye*a*(y/h-1/2.) + xe*b*(x/w -1/2.);
-            ray.dir.normalize();
-            vec3f color_min = CalcularRayo(ray,1,5);
+    int frames = 20;
+    for (int frame=0; frame<frames;frame++){
+      for (int x = 0; x < w; x++)
+      {
+        for (int y = 0; y < h; y++)
+        {
+          ray.dir = ze * (-f) + ye * a * (y / h - 1 / 2.) + xe * b * (x / w - 1 / 2.);
+          ray.dir.normalize();
+          vec3f color_min = CalcularRayo(ray, 1, 5);
 
-            (*pImg)(x,h-1-y,0) = (BYTE)(color_min.x * 255);
-            (*pImg)(x,h-1-y,1) = (BYTE)(color_min.y * 255);
-            (*pImg)(x,h-1-y,2) = (BYTE)(color_min.z * 255);
-            //dis_img.render((*pImg));
-            //dis_img.paint();
-
+          (*pImg)(x, h - 1 - y, 0) = (BYTE)(color_min.x * 255);
+          (*pImg)(x, h - 1 - y, 1) = (BYTE)(color_min.y * 255);
+          (*pImg)(x, h - 1 - y, 2) = (BYTE)(color_min.z * 255);
+          //dis_img.render((*pImg));
+          //dis_img.paint();
         }
-    }
-    dis_img.render((*pImg));
-    dis_img.paint();
-    while (!dis_img.is_closed()) {
+      }
+      dis_img.render((*pImg));
+      dis_img.paint();
+      /*while (!dis_img.is_closed())
+      {
         dis_img.wait();
+      }*/
+      for (auto object:objetos){
+        object->move(cilindro);
+      }
+
     }
 
 }

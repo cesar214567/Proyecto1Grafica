@@ -1,5 +1,8 @@
 #include "Esfera.h"
-
+#include "Cilindro.h"
+#include "Rayo.h"
+#include <iostream>
+#include <cmath>
 Esfera::Esfera(vec3f cen, float r, vec3f col, vec3f _kdkskr, float _n) : centro{cen}, radio{r}, Objeto(col, _kdkskr,_n) {}
 
 bool Esfera::intersectar(Rayo ray, float &t, vec3f &col, vec3f &normal) {
@@ -21,4 +24,22 @@ bool Esfera::intersectar(Rayo ray, float &t, vec3f &col, vec3f &normal) {
 
 }
 
+bool inside_cilinder(Cilindro* cilindro, Esfera* esfera){
+  float distance = sqrt(pow(esfera->centro.x,2) + pow(esfera->centro.z,2));
+  return distance < cilindro->ra && esfera->centro.y > cilindro->pb.y && esfera->centro.y < cilindro->pa.y;
+}
 
+void Esfera::move(Objeto* object){
+  Rayo ray;
+  ray.dir = this->dir;
+  ray.ori = this->centro;
+  Cilindro *cilindro = dynamic_cast<Cilindro *>(object);
+  if(!inside_cilinder(cilindro,this)){
+    std::cout << "cambio direccion" << std::endl;
+    this->dir = this->dir * float(-1.0);
+  }
+
+  centro.x += dir.x;
+  centro.y += dir.y;
+  centro.z += dir.z;
+}

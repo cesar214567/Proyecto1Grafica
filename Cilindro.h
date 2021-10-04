@@ -9,7 +9,8 @@ public:
     float ra;
 
     Cilindro(vec3f _pa, vec3f _pb, float _radio, vec3f _color, vec3f _kdkskr, float _n);
-
+    bool intersectar_simple(Rayo ray, float &t);
+    void move(Objeto* object){};
     bool intersectar(Rayo ray, float &t, vec3f &col, vec3f &normal) override;
 };
 
